@@ -11,9 +11,8 @@ def validUTF8(data):
     Determines if a given data set represents a valid UTF-8 encoding.
 
     Args:
-        data:
-        A list of integers where each integer represents 1 byte of data
-        (only the 8 least significant bits of each integer are considered)
+        data: A list of integers where each integer represents 1 byte of data
+            (only the 8 least significant bits of each integer are considered)
 
     Returns:
         True if data is a valid UTF-8 encoding, else False
@@ -38,26 +37,26 @@ def validUTF8(data):
                 continue
 
             # 2-byte character (110xxxxx)
-        elif byte >> 5 == 0b110:
-            num_bytes_to_process = 1
+            elif byte >> 5 == 0b110:
+                num_bytes_to_process = 1
 
             # 3-byte character (1110xxxx)
-        elif byte >> 4 == 0b1110:
-            num_bytes_to_process = 2
+            elif byte >> 4 == 0b1110:
+                num_bytes_to_process = 2
 
             # 4-byte character (11110xxx)
-        elif byte >> 3 == 0b11110:
-            num_bytes_to_process = 3
+            elif byte >> 3 == 0b11110:
+                num_bytes_to_process = 3
 
             # Invalid UTF-8 starting byte
-        else:
-            return False
+            else:
+                return False
 
         # If we're processing continuation bytes (10xxxxxx)
-    else:
-        # Check if the byte starts with 10
-        if byte >> 6 != 0b10:
-            return False
+        else:
+            # Check if the byte starts with 10
+            if byte >> 6 != 0b10:
+                return False
 
             # Decrement the number of bytes to process
             num_bytes_to_process -= 1
