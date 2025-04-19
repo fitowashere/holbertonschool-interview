@@ -31,37 +31,36 @@ request(filmUrl, (error, response, body) => {
     const filmData = JSON.parse(body);
     const characterUrls = filmData.characters;
     
-    // Function to get character data and print character name
-    const fetchCharacter = (index) => {
+    // Function to fetch character names in sequence
+    const fetchCharacters = (characterUrls, index = 0) => {
       if (index >= characterUrls.length) {
-        return; // All characters processed
+        return;
       }
       
       request(characterUrls[index], (charError, charResponse, charBody) => {
         if (charError) {
           console.error('Error fetching character data:', charError);
-          return;
+          process.exit(1);
         }
         
         if (charResponse.statusCode !== 200) {
-          console.error(`Error: Status code ${charResponse.statusCode} for character ${index}`);
-          return;
+          console.error(`Error: Status code ${charResponse.statusCode} for character URL ${characterUrls[index]}`);
+          process.exit(1);
         }
         
         try {
           const character = JSON.parse(charBody);
           console.log(character.name);
           
-          // Process next character
-          fetchCharacter(index + 1);
+          fetchCharacters(characterUrls, index + 1);
         } catch (parseError) {
           console.error('Error parsing character data:', parseError);
+          process.exit(1);
         }
       });
     };
     
-    // Start processing characters
-    fetchCharacter(0);
+    fetchCharacters(characterUrls);
   } catch (parseError) {
     console.error('Error parsing film data:', parseError);
     process.exit(1);
