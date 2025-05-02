@@ -8,9 +8,9 @@
  */
 void swap(int *a, int *b)
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+	int temp = *a;
+	*a = *b;
+	*b = temp;
 }
 
 /**
@@ -23,27 +23,27 @@ void swap(int *a, int *b)
  */
 void sift_down(int *array, size_t size, size_t root, size_t max)
 {
-    size_t largest, left, right;
+	size_t largest, left, right;
 
-    largest = root;
-    left = 2 * root + 1;
-    right = 2 * root + 2;
+	largest = root;
+	left = 2 * root + 1;
+	right = 2 * root + 2;
 
-    /* Compare root with its left child */
-    if (left < max && array[left] > array[largest])
-        largest = left;
+	/* Compare root with its left child */
+	if (left < max && array[left] > array[largest])
+		largest = left;
 
-    /* Compare largest with right child */
-    if (right < max && array[right] > array[largest])
-        largest = right;
+	/* Compare largest with right child */
+	if (right < max && array[right] > array[largest])
+		largest = right;
 
-    /* If largest is not root, swap and continue to sift down */
-    if (largest != root)
-    {
-        swap(&array[root], &array[largest]);
-        print_array(array, size);
-        sift_down(array, size, largest, max);
-    }
+	/* If largest is not root, swap and continue to sift down */
+	if (largest != root)
+	{
+		swap(&array[root], &array[largest]);
+		print_array(array, size);
+		sift_down(array, size, largest, max);
+	}
 }
 
 /**
@@ -55,23 +55,23 @@ void sift_down(int *array, size_t size, size_t root, size_t max)
  */
 void heap_sort(int *array, size_t size)
 {
-    int i;
+	int i;
 
-    if (array == NULL || size < 2)
-        return;
+	if (array == NULL || size < 2)
+		return;
 
-    /* Build max heap */
-    for (i = size / 2 - 1; i >= 0; i--)
-        sift_down(array, size, i, size);
+	/* Build max heap */
+	for (i = size / 2 - 1; i >= 0; i--)
+		sift_down(array, size, i, size);
 
-    /* Extract elements from the heap one by one */
-    for (i = size - 1; i > 0; i--)
-    {
-        /* Move current root to end */
-        swap(&array[0], &array[i]);
-        print_array(array, size);
+	/* Extract elements from the heap one by one */
+	for (i = size - 1; i > 0; i--)
+	{
+		/* Move current root to end */
+		swap(&array[0], &array[i]);
+		print_array(array, size);
 
-        /* Call sift_down on the reduced heap */
-        sift_down(array, size, 0, i);
-    }
+		/* Call sift_down on the reduced heap */
+		sift_down(array, size, 0, i);
+	}
 }
