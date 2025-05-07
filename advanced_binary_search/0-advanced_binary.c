@@ -33,6 +33,7 @@ void print_array(int *array, size_t left, size_t right)
 int binary_search_recursive(int *array, size_t left, size_t right, int value)
 {
 	size_t mid;
+	int result;
 
 	if (right < left)
 		return (-1);
@@ -40,12 +41,12 @@ int binary_search_recursive(int *array, size_t left, size_t right, int value)
 	/* Print the current subarray */
 	print_array(array, left, right);
 
-	mid = left + (right - left) / 2;
+	mid = (left + right) / 2;
 
 	/* If we found the value */
 	if (array[mid] == value)
 	{
-		/* If this is the leftmost occurrence or we are at index 0 */
+		/* If this is the leftmost occurrence */
 		if (mid == left || array[mid - 1] != value)
 			return (mid);
 
