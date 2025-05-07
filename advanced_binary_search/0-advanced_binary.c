@@ -33,35 +33,33 @@ void print_array(int *array, size_t left, size_t right)
 int binary_search_recursive(int *array, size_t left, size_t right, int value)
 {
 	size_t mid;
-	int result;
 
-	if (left > right)
+	if (right < left)
 		return (-1);
 
 	/* Print the current subarray */
 	print_array(array, left, right);
 
-	/* Calculate mid point of the array */
 	mid = (left + right) / 2;
 
 	/* If we found the value */
 	if (array[mid] == value)
 	{
-		/* If we're at the first element or the previous element is different */
-		if (mid == 0 || array[mid - 1] != value)
+		/* If this is the leftmost occurrence */
+		if (mid == left || array[mid - 1] != value)
 			return (mid);
 
-		/* Keep searching in the left side (including the current element) */
+		/* Otherwise, continue searching in the left half */
 		return (binary_search_recursive(array, left, mid, value));
 	}
-	/* If the value is less than the middle element */
-	else if (value < array[mid])
+	else if (array[mid] > value)
 	{
+		/* Search in the left subarray */
 		return (binary_search_recursive(array, left, mid - 1, value));
 	}
-	/* If the value is greater than the middle element */
 	else
 	{
+		/* Search in the right subarray */
 		return (binary_search_recursive(array, mid + 1, right, value));
 	}
 }
