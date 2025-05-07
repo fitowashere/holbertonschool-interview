@@ -34,7 +34,7 @@ int binary_search_recursive(int *array, size_t left, size_t right, int value)
 {
 	size_t mid;
 
-	if (left > right)
+	if (right < left)
 		return (-1);
 
 	/* Print the current subarray */
@@ -42,14 +42,15 @@ int binary_search_recursive(int *array, size_t left, size_t right, int value)
 
 	mid = left + (right - left) / 2;
 
-	/* Check if we found the value */
+	/* If we found the value */
 	if (array[mid] == value)
 	{
-		/* Check if it's the first occurrence or if we need to look further left */
-		if (mid == 0 || array[mid - 1] != value)
+		/* If this is the leftmost occurrence or we are at index 0 */
+		if (mid == left || array[mid - 1] != value)
 			return (mid);
-		else
-			return (binary_search_recursive(array, left, mid - 1, value));
+
+		/* Otherwise, continue searching in the left half */
+		return (binary_search_recursive(array, left, mid, value));
 	}
 	else if (array[mid] > value)
 	{
