@@ -34,38 +34,40 @@ int binary_search_recursive(int *array, size_t left, size_t right, int value)
 {
 	size_t mid;
 
-	if (right < left)
+	/* Base case: If subarray is empty */
+	if (left > right)
 		return (-1);
 
 	/* Print the current subarray */
 	print_array(array, left, right);
 
-	mid = (left + right) / 2;
+	/* Calculate mid point */
+	mid = left + (right - left) / 2;
 
-	/* If we found the value */
+	/* If we found the value at mid */
 	if (array[mid] == value)
 	{
-		/* If this is the leftmost occurrence */
-		if (mid == left || array[mid - 1] != value)
+		/* If this is the first occurrence or we reached the leftmost element */
+		if (mid == 0 || array[mid - 1] != value)
 			return (mid);
 
-		/* Otherwise, continue searching in the left half */
+		/* Otherwise, continue searching in the left half (including mid) */
 		return (binary_search_recursive(array, left, mid, value));
 	}
+	/* If value is in the left half */
 	else if (array[mid] > value)
 	{
-		/* Search in the left subarray */
 		return (binary_search_recursive(array, left, mid - 1, value));
 	}
+	/* If value is in the right half */
 	else
 	{
-		/* Search in the right subarray */
 		return (binary_search_recursive(array, mid + 1, right, value));
 	}
 }
 
 /**
- * advanced_binary - Searches for a value in a sorted array using binary search
+ * advanced_binary - Searches for a value in a sorted array of integers
  * @array: Pointer to the first element of the array
  * @size: Number of elements in the array
  * @value: The value to search for
@@ -78,6 +80,6 @@ int advanced_binary(int *array, size_t size, int value)
 	if (array == NULL || size == 0)
 		return (-1);
 
-	/* Call the recursive binary search function */
+	/* Call the recursive function */
 	return (binary_search_recursive(array, 0, size - 1, value));
 }
