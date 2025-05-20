@@ -2,16 +2,6 @@
 #include <stdlib.h>
 
 /**
- * struct heap_s - Binary heap tree node
- *
- * @n: Integer stored in the node
- * @parent: Pointer to the parent node
- * @left: Pointer to the left child node
- * @right: Pointer to the right child node
- */
-typedef struct binary_tree_s heap_t;
-
-/**
  * heap_size - measures the size of a binary tree
  * @tree: pointer to the root node of the tree to measure the size
  *
@@ -33,9 +23,9 @@ size_t heap_size(const binary_tree_t *tree)
  *
  * Return: Pointer to the last node
  */
-heap_t *get_last_node(heap_t *root, size_t size, size_t level, size_t current_index)
+binary_tree_t *get_last_node(binary_tree_t *root, size_t size, size_t level, size_t current_index)
 {
-    heap_t *left, *right;
+    binary_tree_t *left, *right;
 
     if (current_index == size)
         return (root);
@@ -67,7 +57,7 @@ heap_t *get_last_node(heap_t *root, size_t size, size_t level, size_t current_in
  *
  * Return: Pointer to the last node
  */
-heap_t *find_last_node(heap_t *root, size_t size)
+binary_tree_t *find_last_node(binary_tree_t *root, size_t size)
 {
     size_t height = 0;
     size_t tree_size = size;
@@ -88,10 +78,10 @@ heap_t *find_last_node(heap_t *root, size_t size)
  *
  * Return: Pointer to the new root node
  */
-heap_t *sift_down(heap_t *root)
+binary_tree_t *sift_down(binary_tree_t *root)
 {
-    heap_t *current = root;
-    heap_t *largest = NULL;
+    binary_tree_t *current = root;
+    binary_tree_t *largest = NULL;
     int temp;
 
     while (1)
@@ -123,10 +113,10 @@ heap_t *sift_down(heap_t *root)
  *
  * Return: Value stored in the root node, or 0 on failure
  */
-int heap_extract(heap_t **root)
+int heap_extract(binary_tree_t **root)
 {
     int extracted_value;
-    heap_t *last_node;
+    binary_tree_t *last_node;
     size_t size;
 
     if (!root || !*root)
