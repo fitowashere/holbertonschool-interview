@@ -1,5 +1,4 @@
 #include "binary_trees.h"
-#include <stdlib.h>
 
 /**
  * heap_size - measures the size of a binary tree
@@ -15,7 +14,43 @@ size_t heap_size(const binary_tree_t *tree)
 }
 
 /**
- * find_last_node - finds the last level-order node in a heap
+ * get_last_node - finds the last level-order node in a heap
+ * @root: pointer to the root node of the heap
+ * @size: size of the heap
+ * @level: current level in the tree
+ * @current_index: current index in the level
+ *
+ * Return: Pointer to the last node
+ */
+heap_t *get_last_node(heap_t *root, size_t size, size_t level, size_t current_index)
+{
+    heap_t *left, *right;
+
+    if (current_index == size)
+        return (root);
+
+    if (current_index + (1 << level) > size)
+    {
+        left = get_last_node(root->left, size, level - 1, current_index + 1);
+        if (left)
+            return (left);
+        return (NULL);
+    }
+    else
+    {
+        right = get_last_node(root->right, size, level - 1, 
+                          current_index + (1 << level));
+        if (right)
+            return (right);
+        left = get_last_node(root->left, size, level - 1, current_index + 1);
+        if (left)
+            return (left);
+        return (NULL);
+    }
+}
+
+/**
+ * find_last_node - wrapper to find the last level-order node
  * @root: pointer to the root node of the heap
  * @size: size of the heap
  *
@@ -23,30 +58,17 @@ size_t heap_size(const binary_tree_t *tree)
  */
 heap_t *find_last_node(heap_t *root, size_t size)
 {
-    heap_t *last = NULL;
-    size_t pos = 0;
-    size_t bit = 0;
+    size_t height = 0;
+    size_t tree_size = size;
 
-    if (!root || size == 0)
-        return (NULL);
-
-    /* Find the position of the last node using binary representation */
-    bit = 1 << (sizeof(size_t) * 8 - 1);
-    while (!(bit & size))
-        bit >>= 1;
-    bit >>= 1;  /* Skip the leftmost bit which is for the root */
-
-    last = root;
-    while (bit)
+    /* Calculate the height of the tree */
+    while (tree_size > 1)
     {
-        if (size & bit)
-            last = last->right;
-        else
-            last = last->left;
-        bit >>= 1;
+        tree_size >>= 1;
+        height++;
     }
 
-    return (last);
+    return (get_last_node(root, size, height, 1));
 }
 
 /**
