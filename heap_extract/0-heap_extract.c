@@ -1,4 +1,15 @@
 #include "binary_trees.h"
+#include <stdlib.h>
+
+/**
+ * struct heap_s - Binary heap tree node
+ *
+ * @n: Integer stored in the node
+ * @parent: Pointer to the parent node
+ * @left: Pointer to the left child node
+ * @right: Pointer to the right child node
+ */
+typedef struct binary_tree_s heap_t;
 
 /**
  * heap_size - measures the size of a binary tree
