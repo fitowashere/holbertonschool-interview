@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include <string.h>
 #include "list.h"
 
 /**
@@ -12,6 +11,7 @@
 List *add_node_end(List **list, char *str)
 {
 	List *new_node, *last;
+	int len, i;
 
 	if (!list || !str)
 		return (NULL);
@@ -20,13 +20,21 @@ List *add_node_end(List **list, char *str)
 	if (!new_node)
 		return (NULL);
 
-	new_node->str = malloc(strlen(str) + 1);
+	/* Calculate string length manually */
+	len = 0;
+	while (str[len])
+		len++;
+
+	new_node->str = malloc(len + 1);
 	if (!new_node->str)
 	{
 		free(new_node);
 		return (NULL);
 	}
-	strcpy(new_node->str, str);
+
+	/* Copy string manually */
+	for (i = 0; i <= len; i++)
+		new_node->str[i] = str[i];
 
 	if (*list == NULL)
 	{
@@ -41,7 +49,6 @@ List *add_node_end(List **list, char *str)
 	new_node->prev = last;
 	last->next = new_node;
 	(*list)->prev = new_node;
-
 	return (new_node);
 }
 
@@ -56,6 +63,7 @@ List *add_node_end(List **list, char *str)
 List *add_node_begin(List **list, char *str)
 {
 	List *new_node, *last;
+	int len, i;
 
 	if (!list || !str)
 		return (NULL);
@@ -64,13 +72,21 @@ List *add_node_begin(List **list, char *str)
 	if (!new_node)
 		return (NULL);
 
-	new_node->str = malloc(strlen(str) + 1);
+	/* Calculate string length manually */
+	len = 0;
+	while (str[len])
+		len++;
+
+	new_node->str = malloc(len + 1);
 	if (!new_node->str)
 	{
 		free(new_node);
 		return (NULL);
 	}
-	strcpy(new_node->str, str);
+
+	/* Copy string manually */
+	for (i = 0; i <= len; i++)
+		new_node->str[i] = str[i];
 
 	if (*list == NULL)
 	{
@@ -79,13 +95,11 @@ List *add_node_begin(List **list, char *str)
 		*list = new_node;
 		return (new_node);
 	}
-
 	last = (*list)->prev;
 	new_node->next = *list;
 	new_node->prev = last;
 	(*list)->prev = new_node;
 	last->next = new_node;
 	*list = new_node;
-
 	return (new_node);
 }
