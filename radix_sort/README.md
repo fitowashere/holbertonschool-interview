@@ -135,5 +135,3 @@ Radix sort is particularly effective for:
 - [Introduction to Algorithms - CLRS](https://mitpress.mit.edu/books/introduction-algorithms)
 
 ---
-
-1
