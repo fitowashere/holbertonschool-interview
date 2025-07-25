@@ -10,33 +10,34 @@
  */
 int wildcmp(char *s1, char *s2)
 {
-	/* Base cases */
+	/* Base case: end of pattern */
 	if (*s2 == '\0')
 		return (*s1 == '\0');
 
+	/* If we encounter '*' */
 	if (*s2 == '*')
 	{
-		/* Skip consecutive asterisks */
-		while (*s2 == '*')
-			s2++;
+		/* Skip consecutive asterisks recursively */
+		if (*(s2 + 1) == '*')
+			return (wildcmp(s1, s2 + 1));
 
-		/* If pattern ends with '*', it matches rest of s1 */
-		if (*s2 == '\0')
+		/* If pattern ends with '*', match everything */
+		if (*(s2 + 1) == '\0')
 			return (1);
 
-		/* Try matching '*' with empty string, then with each suffix of s1 */
-		while (*s1 != '\0')
-		{
-			if (wildcmp(s1, s2))
-				return (1);
-			s1++;
-		}
+		/* Try matching '*' with empty string first */
+		if (wildcmp(s1, s2 + 1))
+			return (1);
 
-		/* Try matching '*' with empty string at end */
-		return (wildcmp(s1, s2));
+		/* If s1 is not empty, try matching '*' with current char and more */
+		if (*s1 != '\0')
+			return (wildcmp(s1 + 1, s2));
+
+		/* No match found */
+		return (0);
 	}
 
-	/* If current characters don't match and s2 is not '*', no match */
+	/* If current characters don't match, no match */
 	if (*s1 == '\0' || *s1 != *s2)
 		return (0);
 
